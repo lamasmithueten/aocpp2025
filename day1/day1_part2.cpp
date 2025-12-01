@@ -16,7 +16,6 @@ int main(int argc, char **argv) {
   }
   int size = direction.size();
   for (int i = 0; i < size; i++) {
-    std::cout << direction[i] << amount[i] << '\n';
     if (direction[i] == 'L') {
       for (int j = 0; j < amount[i]; j++) {
         dial--;
@@ -24,7 +23,6 @@ int main(int argc, char **argv) {
           dial = 99;
         if (!dial) {
           passwd++;
-          //				std::cout << dial << '\n';
         }
       }
     } else {
@@ -34,12 +32,9 @@ int main(int argc, char **argv) {
           dial = 0;
         if (!dial) {
           passwd++;
-          //				std::cout << dial << '\n';
         }
       }
     }
-    //		if (dial) passwd++;
-    //		std::cout << dial << '\n';
   }
   std::cout << "Password: " << passwd << '\n';
 
