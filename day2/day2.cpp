@@ -20,7 +20,6 @@ int main(int argc, char **argv) {
 
   std::vector<std::pair<unsigned long long, unsigned long long>> ranges;
   std::istringstream iss(line);
-  unsigned long long sum = 0;
 
   while (std::getline(iss, line, ',')) {
     size_t dashPos = line.find('-');
