@@ -1,0 +1,24 @@
+bash -c	"time ./part1 input.txt"
+Password: 1066
+
+real	0m0,002s
+user	0m0,002s
+sys	0m0,000s
+bash -c	"time ./part2 input.txt"
+Password: 6223
+
+real	0m0,002s
+user	0m0,002s
+sys	0m0,000s
+bash -c	"time ./part1 input.txt"
+Sum: 28846518423
+
+real	0m0,022s
+user	0m0,020s
+sys	0m0,001s
+bash -c	"time ./part2 input.txt"
+Sum: 31578210022
+
+real	0m0,151s
+user	0m0,148s
+sys	0m0,002s
