@@ -16,18 +16,18 @@ Password: 6223
 real	0m0,002s
 user	0m0,002s
 sys	0m0,000s
+#-------------Day  2-----------------#
+#----Part 1----#
 bash -c	"time ./part1 input.txt"
 Sum: 28846518423
 
-#-------------Day  2-----------------#
-#----Part 1----#
 real	0m0,022s
 user	0m0,020s
 sys	0m0,001s
+#----Part 2----#
 bash -c	"time ./part2 input.txt"
 Sum: 31578210022
 
-#----Part 2----#
 real	0m0,151s
 user	0m0,148s
 sys	0m0,002s
