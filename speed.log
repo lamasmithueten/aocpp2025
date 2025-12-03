@@ -9,10 +9,10 @@ Password: 1066
 real	0m0,002s
 user	0m0,002s
 sys	0m0,000s
+#----Part 2----#
 bash -c	"time ./part2 input.txt"
 Password: 6223
 
-#----Part 2----#
 real	0m0,002s
 user	0m0,002s
 sys	0m0,000s
@@ -34,8 +34,6 @@ sys	0m0,002s
 #-------------Day  3-----------------#
 #----Part 1----#
 bash -c	"time ./part1 input.txt"
-
-
 17109
 
 real	0m0,001s
@@ -43,8 +41,6 @@ user	0m0,001s
 sys	0m0,000s
 #----Part 2----#
 bash -c	"time ./part2 input.txt"
-
-
 169347417057382
 
 real	0m0,001s

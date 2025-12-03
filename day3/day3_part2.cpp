@@ -40,7 +40,7 @@ int main (int argc, char ** argv){
 		sum +=findBiggestNumber(line, size);
 }
 
-	std::cout << "\n\n" << sum << '\n';
+	std::cout  << sum << '\n';
 
 	return 0;
 }
