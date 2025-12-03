@@ -1,7 +1,6 @@
 CC           = g++
 
-#CFLAGS       = -O3 -march=native -mtune=native -ffast-math -flto -Wall
-CFLAGS       = -O2 -Wall
+CFLAGS       = -O3 -march=native -mtune=native -ffast-math -flto -Wall
 
 OUTPUT_PART1 = part1
 OUTPUT_PART2 = part2
