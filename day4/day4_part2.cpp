@@ -119,17 +119,9 @@ int main(int argc, char **argv) {
             array[i][j] = '.';
             sum++;
             changes++;
-            //						std::cout << 'x';
           }
-          /*				else{
-                                                  std::cout << '@';
-                                          }*/
         }
-        /*			else{
-                                        std::cout << '.';
-                                }*/
       }
-      //		std::cout << '\n';
     }
     if (!changes)
       break;
