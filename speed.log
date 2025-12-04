@@ -46,3 +46,18 @@ bash -c	"time ./part2 input.txt"
 real	0m0,001s
 user	0m0,000s
 sys	0m0,001s
+#-------------Day  4-----------------#
+#----Part 1----#
+bash -c	"time ./part1 input.txt"
+Sum: 1372
+
+real	0m0.006s
+user	0m0.003s
+sys	0m0.003s
+#----Part 2----#
+bash -c	"time ./part2 input.txt"
+Sum: 7922
+
+real	0m0.013s
+user	0m0.007s
+sys	0m0.006s
