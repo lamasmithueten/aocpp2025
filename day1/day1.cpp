@@ -23,7 +23,6 @@ int main(int argc, char **argv) {
     }
     if (!dial)
       passwd++;
-    //		std::cout << dial << '\n';
   }
   std::cout << "Password: " << passwd << '\n';
 
