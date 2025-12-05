@@ -13,7 +13,8 @@ std::vector<std::pair<unsigned long long, unsigned long long>> mergeRanges(
   std::vector<std::pair<unsigned long long, unsigned long long>> merged;
   merged.push_back(ranges[0]);
 
-  for (size_t i = 1; i < ranges.size(); ++i) {
+  size_t size = ranges.size();
+  for (size_t i = 1; i < size; ++i) {
     std::pair<unsigned long long, unsigned long long> &last = merged.back();
     const std::pair<unsigned long long, unsigned long long> &current =
         ranges[i];
