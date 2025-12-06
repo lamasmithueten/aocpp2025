@@ -5,7 +5,7 @@ CFLAGS       = -O3 -march=native -mtune=native -ffast-math -flto -Wall
 OUTPUT_PART1 = part1
 OUTPUT_PART2 = part2
 
-DAY          = 3
+DAY          = 6
 
 SRC_PART1    = day$(DAY).cpp
 SRC_PART2    = day$(DAY)_part2.cpp

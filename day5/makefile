@@ -27,7 +27,7 @@ $(OUTPUT_PART2): $(SRC_PART2)
 
 
 clean:
-	rm -rf $(OUTPUT_PART1) $(OUTPUT_PART2)
+	rm -rf $(OUTPUT_PART1) $(OUTPUT_PART2) a.out
 
 test:
 	bash -c	"time ./$(OUTPUT_PART1) $(TEST)"
