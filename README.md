@@ -4,14 +4,14 @@ This repository contains my solutions for Advent of Code 2025, written in C++.
 
 ## Benchmark Results
 
-| Day   | Part 1 (ms) | Part 2 (ms) |
+| Day   | Part 1 (seconds) | Part 2 (seconds) |
 |-------|------------------|------------------|
-| day1  | 0.002337 | 0.002064 |
-| day2  | 0.020660 | 0.153500 |
-| day3  | 0.001969 | 0.001499 |
-| day4  | 0.002170 | 0.002999 |
-| day5  | 0.002646 | 0.002123 |
-| day6  | 0.014324 | 0.003505 |
+| day1  | 0.002019 | 0.001888 |
+| day2  | 0.020622 | 0.153543 |
+| day3  | 0.001702 | 0.002218 |
+| day4  | 0.002065 | 0.003720 |
+| day5  | 0.002368 | 0.002122 |
+| day6  | 0.016629 | 0.003307 |
 
 ---
 ### How to Run the Benchmark
