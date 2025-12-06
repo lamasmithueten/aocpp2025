@@ -5,6 +5,7 @@
 #include <numeric>
 #include <sstream>
 #include <vector>
+#include <omp.h>
 
 unsigned int countDigits(unsigned long long number) {
   if (number == 0)
@@ -45,13 +46,31 @@ bool areFractionsEqual(unsigned long long number, unsigned int fractionSize,
   return true;
 }
 
+
+unsigned long long getSum(std::pair<unsigned long long, unsigned long long>r){
+    std::vector<unsigned long long> divisors;
+    unsigned long long sum= 0;
+    for (unsigned long long i = r.first; i <= r.second; i++) {
+      unsigned int length = countDigits(i);
+      divisors = getDivisors(length);
+
+      for (auto j : divisors) {
+        if (areFractionsEqual(i, j, length)) {
+//          invalidIds.push_back(i);
+          sum += i;  
+          break;
+        }
+      }
+    }
+    return sum;
+}
+
 int main(int argc, char **argv) {
 
   std::ifstream file(argv[1]);
   std::string line;
   std::getline(file, line);
   std::vector<unsigned long long> invalidIds;
-  std::vector<unsigned long long> divisors;
 
   std::vector<std::pair<unsigned long long, unsigned long long>> ranges;
   std::istringstream iss(line);
@@ -64,7 +83,13 @@ int main(int argc, char **argv) {
       ranges.emplace_back(lower, upper);
     }
   }
-  for (const auto &r : ranges) {
+  invalidIds.resize(ranges.size());
+  size_t size = ranges.size();
+  #pragma omp parallel for
+  for (size_t i = 0; i<size; i++){
+    invalidIds[i] = getSum(ranges[i]);
+  }
+/*  for (const auto &r : ranges) {
     for (unsigned long long i = r.first; i <= r.second; i++) {
       unsigned int length = countDigits(i);
       divisors = getDivisors(length);
@@ -76,7 +101,7 @@ int main(int argc, char **argv) {
         }
       }
     }
-  }
+  }*/
 
   std::cout << "Sum: "
             << std::accumulate(invalidIds.begin(), invalidIds.end(), 0ULL)
