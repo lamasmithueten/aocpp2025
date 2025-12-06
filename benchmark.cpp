@@ -70,11 +70,11 @@ void write_readme(const std::vector<std::string> &day_folders,
   readme << "\n---\n";
   readme << "### How to Run the Benchmark\n";
   readme << "1. Place the benchmark program in the root of this repository.\n";
-  readme << "2. Compile it via the makefile via\n";
+  readme << "2. Compile it via the makefile automatically\n";
   readme << "   ```bash\n ";
   readme << "   make\n";
   readme << "   ```\n";
-  readme << "   or with:\n";
+  readme << "   or manually with:\n";
   readme << "   ```bash\n";
   readme << "   g++ -std=c++17 benchmark.cpp -o benchmark\n";
   readme << "   ```\n";
