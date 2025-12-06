@@ -1,6 +1,6 @@
 CC     = g++
 
-CFLAGS = -O3 -march=native -mtune=native -ffast-math -flto -Wall
+CFLAGS = -O3 -march=native -mtune=native -ffast-math -flto=auto -Wall
 
 OUTPUT = benchmark
 

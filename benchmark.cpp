@@ -54,7 +54,7 @@ void write_readme(const std::vector<std::string> &day_folders,
   readme << "This repository contains my solutions for Advent of Code 2025, "
             "written in C++.\n\n";
   readme << "## Benchmark Results\n\n";
-  readme << "| Day   | Part 1 (seconds) | Part 2 (seconds) |\n";
+  readme << "| Day   | Part 1 (ms) | Part 2 (ms) |\n";
   readme << "|-------|------------------|------------------|\n";
 
   for (size_t i = 0; i < day_folders.size(); ++i) {

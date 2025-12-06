@@ -36,7 +36,7 @@ bool areFractionsEqual(unsigned long long number, unsigned int fractionSize,
   int numFractions = length / fractionSize;
   std::string firstFraction = input.substr(0, fractionSize);
 
-  for (unsigned int i = 1; i < numFractions; i++) {
+  for (int i = 1; i < numFractions; i++) {
     std::string currentFraction = input.substr(i * fractionSize, fractionSize);
     if (currentFraction != firstFraction) {
       return false;
@@ -55,7 +55,6 @@ int main(int argc, char **argv) {
 
   std::vector<std::pair<unsigned long long, unsigned long long>> ranges;
   std::istringstream iss(line);
-  unsigned long long sum = 0;
 
   while (std::getline(iss, line, ',')) {
     size_t dashPos = line.find('-');
