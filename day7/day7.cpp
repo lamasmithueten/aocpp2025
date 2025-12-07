@@ -52,9 +52,9 @@ int main(int argc, char **argv){
   }
   
   
-  for(std::string i: manifold){
+/*  for(std::string i: manifold){
     std::cout << i << '\n';
-  }
+  }*/
 
   std::cout << "Splits: " << splits << '\n';
 

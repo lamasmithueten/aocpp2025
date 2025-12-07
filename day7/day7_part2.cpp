@@ -1,62 +1,65 @@
+#include <vector>
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <vector>
 
+unsigned long long countAllPaths(std::vector<std::string>& matrix) {
+    int rows = matrix.size();
+    if (rows == 0) return 0;
+    int cols = matrix[0].size();
 
-int splitBeam(unsigned long int x, unsigned long int y, std::vector <std::string>& manifold){
-  if(x==0){
-    manifold[x+1][y+1] = '|';
-  }
-  else if (x == manifold[x].length()) {
-    manifold[x+1][y-1] = '|';
-  } else {
-    manifold[x+1][y-1] = '|';
-    manifold[x+1][y+1] = '|';
-  }
-  return 1;
+    std::pair<int, int> start;
+    bool found = false;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (matrix[i][j] == 'S') {
+                start = {i, j};
+                found = true;
+                break;
+            }
+        }
+        if (found) break;
+    }
+
+    std::vector<std::vector<unsigned long long>> dp(rows, std::vector<unsigned long long>(cols, 0));
+
+    for (int j = 0; j < cols; ++j) {
+        dp[rows - 1][j] = 1;
+    }
+
+    for (int i = rows - 2; i >= 0; --i) {
+        for (int j = 0; j < cols; ++j) {
+            if (i + 1 < rows) {
+                char below = matrix[i + 1][j];
+                if (below == '^') {
+                    unsigned long long left = (j - 1 >= 0) ? dp[i + 1][j - 1] : 0;
+                    unsigned long long right = (j + 1 < cols) ? dp[i + 1][j + 1] : 0;
+                    dp[i][j] = left + right;
+                } else {
+                    dp[i][j] = dp[i + 1][j];
+                }
+            }
+        }
+    }
+
+    return dp[start.first][start.second];
 }
+
+
+
 
 int main(int argc, char **argv){
   std::ifstream file(argv[1]);
   std::string line;
   std::vector<std::string> manifold;
-  int splits = 0;
-
+  std::vector <std::vector<std::pair<int, int>>> paths;
+  std::vector <std::pair<int, int>> path;
+  
   while(std::getline(file, line)){
     manifold.push_back(line);
   }
+  unsigned long long sum = countAllPaths(manifold);
+  std::cout << "Sum: " << sum << '\n';
   
-  unsigned long int size = manifold.size()-1;
-  unsigned long int width = manifold[0].length();
-  for(unsigned long int i = 0; i<size; i++){
-    for (unsigned long int j = 0; j<width; j++){
-      if (manifold[i][j] == 'S'){
-        manifold[i+1][j] = '|';
-        break;
-      }
-    }
-    break;
-  }
-  for(unsigned long int i = 0; i<size; i++){
-    for (unsigned long int j = 0; j<width; j++){
-      if (manifold[i][j] == '|'){
-        if(manifold[i+1][j] == '^'){
-          splits += splitBeam(i, j, manifold);
-        }
-        else {
-          manifold[i+1][j]='|';
-        }
-      }
-    }
-  }
-  
-  
-  for(std::string i: manifold){
-    std::cout << i << '\n';
-  }
-
-  std::cout << "Splits: " << splits << '\n';
-
   return 0;
 }
