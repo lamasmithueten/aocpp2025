@@ -1,0 +1,272 @@
+#include <algorithm>
+#include <climits>
+#include <cmath>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <queue>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+struct Vector {
+  double x = 0;
+  double y = 0;
+  double z = 0;
+
+  bool operator==(const Vector &other) const {
+    return x == other.x && y == other.y && z == other.z;
+  }
+
+  bool operator!=(const Vector &other) const {
+    return x != other.x || y != other.y || z != other.y;
+  }
+
+  bool operator<(const Vector &other) const {
+    if (x != other.x)
+      return x < other.x;
+    if (y != other.y)
+      return y < other.y;
+    return z < other.z;
+  }
+};
+
+std::ostream &operator<<(std::ostream &os, const Vector &vec) {
+  os << "X: " << vec.x << " Y: " << vec.y << " Z: " << vec.z;
+  return os;
+}
+
+struct VectorPair {
+  Vector vec1;
+  Vector vec2;
+  double distance;
+
+  bool operator<(const VectorPair &other) const {
+    if (vec1 != other.vec1)
+      return vec1 < other.vec1;
+    return vec2 < other.vec2;
+  }
+  bool operator==(const VectorPair &other) const {
+    return vec1 == other.vec1 && vec2 == other.vec2;
+  }
+};
+
+void eliminateDuplicatePairs(std::vector<VectorPair> &pairs) {
+  for (size_t i = 0; i < pairs.size(); i++) {
+    for (size_t j = 1; j < pairs.size(); j++) {
+    }
+  }
+}
+
+VectorPair getDistance(const Vector &v1, const Vector &v2) {
+  double dx = v2.x - v1.x;
+  double dy = v2.y - v1.y;
+  double dz = v2.z - v1.z;
+  if (v1 < v2) {
+    return {v1, v2, std::sqrt(dx * dx + dy * dy + dz * dz)};
+  } else {
+    return {v2, v1, std::sqrt(dx * dx + dy * dy + dz * dz)};
+  }
+}
+
+bool isConnection(Vector vec, std::vector<Vector> vecArray) {
+  if (vecArray.empty())
+    return false;
+  for (Vector i : vecArray)
+    if (vec == i)
+      return true;
+  return false;
+}
+
+VectorPair findPair(Vector vec, std::vector<VectorPair> pairs) {
+  for (VectorPair i : pairs) {
+    if (vec == i.vec1 || vec == i.vec2)
+      return i;
+  }
+}
+
+std::vector<std::vector<Vector>>
+connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
+             int limit) {
+  std::cout << "Pairs:\n";
+  for (int i = 0; i<10; i++){
+    std::cout << "Iteration: " << i+1 << "\nVector 1:\n" << pairs[i].vec1 << "\nVector 2:\n" << pairs[i].vec2 <<"\nDistance:" <<pairs[i].distance << "\n\n";
+  }
+  std::cout << "Begin Connecting\n";
+  std::vector<std::vector<Vector>> components;
+  std::cout << "New Connection\n" << pairs[0].vec1 << '\n' << pairs[0].vec2 << "\n\n";
+  components.push_back({pairs[0].vec1, pairs[0].vec2});
+  for (int i = 1; i < limit; i++) {
+
+    bool changed = false;
+    int size = components.size();
+
+    for (int j = 0; j < size; j++) {
+
+      if (isConnection(pairs[i].vec1, components[j]) &&
+          isConnection(pairs[i].vec2, components[j])) {
+        std::cout << "Connecting\n" << pairs[i].vec1 << "\nwith\n" << pairs[i].vec2 << "\nin\n";
+        for (Vector vec: components[j]){
+          std::cout << vec << '\n';
+        }
+        std::cout << '\n';
+//        components[j].push_back(pairs[i].vec1);
+        changed = true;
+        break;
+      } else if (isConnection(pairs[i].vec1, components[j])) {
+        bool found = false;
+        std::cout << "Connecting\n";
+        for (int k = j; k < size; k++) {
+          if (isConnection(pairs[i].vec2, components[k])) {
+            for (Vector vec: components[j]){
+              std::cout << vec << '\n';
+            }
+            std::cout<< "\nwith\n";
+            
+            for (Vector vec: components[k]){
+              std::cout << vec << '\n';
+            }
+            components[j].insert(components[j].end(), components[k].begin(),
+                                 components[k].end());
+            components.erase(components.begin() + k);
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+            std::cout << pairs[i].vec2 << '\n';
+            std::cout<< "\nwith\n";
+            for (Vector vec: components[j]){
+              std::cout << vec << '\n';
+            }
+          components[j].push_back(pairs[i].vec2);
+        }
+
+        changed = true;
+        break;
+      } else if (isConnection(pairs[i].vec2, components[j])) {
+        bool found = false;
+        std::cout << "Connecting\n";
+        for (int k = j; k < size; k++) {
+          if (isConnection(pairs[i].vec1, components[k])) {
+            for (Vector vec: components[j]){
+              std::cout << vec << '\n';
+            }
+            std::cout<< "\nwith\n";
+            for (Vector vec: components[k]){
+              std::cout << vec << '\n';
+            }
+            components[j].insert(components[j].end(), components[k].begin(),
+                                 components[k].end());
+            components.erase(components.begin() + k);
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+            std::cout << pairs[i].vec1 << '\n';
+            std::cout<< "\nwith\n";
+            for (Vector vec: components[j]){
+              std::cout << vec << '\n';
+            }
+            std::cout <<'\n';
+          components[j].push_back(pairs[i].vec1);
+        }
+
+        changed = true;
+      }
+    }
+    if (changed) {
+      continue;
+    } else {
+      std::cout << "New Connection\n" << pairs[i].vec1 << '\n' << pairs[i].vec2 << "\n\n";
+      components.push_back({pairs[i].vec1, pairs[i].vec2});
+    }
+  }
+
+  return components;
+}
+
+int main(int argc, char **argv) {
+  std::ifstream file(argv[1]);
+  std::string line;
+  std::vector<Vector> vectorList;
+  std::vector<VectorPair> pairList;
+  std::vector<std::vector<Vector>> circuits;
+  while (std::getline(file, line)) {
+    std::string value;
+    Vector vector;
+
+    double *ptr = &vector.x;
+
+    size_t start = 0;
+    size_t end = line.find_first_of(",\n");
+
+    while (end != std::string::npos) {
+      *ptr++ = std::stoull(line.substr(start, end - start));
+      start = end + 1;
+      end = line.find_first_of(",\n", start);
+    }
+    *ptr = std::stoull(line.substr(start, end - start));
+
+    vectorList.push_back(vector);
+  }
+  size_t size = vectorList.size();
+
+  for (size_t i = 0; i < size; i++) {
+    //    std::cout << "X: " << vectorList[i].x << " Y: " << vectorList[i].y <<
+    //    " Z: " << vectorList[i].z << '\n';
+  }
+  //  std::cout << "\n\n\n";
+
+  size = vectorList.size();
+  for (size_t i = 0; i < size; i++) {
+    for (size_t j = i; j < size; j++) {
+      if (vectorList[i] == vectorList[j]) {
+        continue;
+      } else {
+        VectorPair pair = getDistance(vectorList[i], vectorList[j]);
+        pairList.push_back(pair);
+      }
+    }
+  }
+  std::sort(pairList.begin(), pairList.end(),
+            [](const VectorPair &a, const VectorPair &b) {
+              return a.distance < b.distance;
+            });
+
+  std::sort(pairList.begin(), pairList.end(),
+            [](const VectorPair &a, const VectorPair &b) {
+              return a.distance < b.distance;
+            });
+
+
+  circuits = connectPairs(pairList, vectorList, std::stoi(argv[2]));
+
+  std::sort(circuits.begin(), circuits.end(),
+            [](const std::vector<Vector> &a, const std::vector<Vector> &b) {
+              return a.size() > b.size();
+            });
+
+  for (unsigned long int i = 0; i < circuits.size(); i++) {
+    std::cout << "Circuit:\n";
+    for (Vector j : circuits[i]) {
+      std::cout << "X: " << j.x << " Y: " << j.y << " Z: " << j.z << '\n';
+    }
+    std::cout << '\n';
+  }
+  int sum = 1;
+
+  for (int i = 0; i < 3; i++) {
+    std::cout << "Circuit:\n";
+    std::cout << circuits[i].size() << '\n';
+    sum *= circuits[i].size();
+  }
+
+  std::cout << "Sum: " << sum << '\n';
+
+  return 0;
+}
