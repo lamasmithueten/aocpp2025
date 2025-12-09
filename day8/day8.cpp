@@ -107,7 +107,7 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
         bool found = false;
         for (int k = j; k < size; k++) {
           if (isConnection(pairs[i].vec2, components[k])) {
-            
+
             components[j].insert(components[j].end(), components[k].begin(),
                                  components[k].end());
             components.erase(components.begin() + k);
@@ -203,8 +203,7 @@ int main(int argc, char **argv) {
               return a.distance < b.distance;
             });
 
-
-  circuits = connectPairs(pairList, vectorList, std::stoi(argv[2]));
+  circuits = connectPairs(pairList, vectorList, 1000);
 
   std::sort(circuits.begin(), circuits.end(),
             [](const std::vector<Vector> &a, const std::vector<Vector> &b) {

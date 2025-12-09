@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <float.h>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -10,7 +11,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <float.h>
 
 struct Vector {
   double x = 0;
@@ -65,19 +65,20 @@ VectorPair getDistance(const Vector &v1, const std::vector<Vector> vectorList) {
   double shortestDistance = DBL_MAX;
   int index = 0;
   int currentIndex = 0;
-  for (Vector v2: vectorList){
-    if (v2 == v1) continue;
+  for (Vector v2 : vectorList) {
+    if (v2 == v1)
+      continue;
     index++;
     double dx = v2.x - v1.x;
     double dy = v2.y - v1.y;
     double dz = v2.z - v1.z;
     double distance = std::sqrt(dx * dx + dy * dy + dz * dz);
-    if (distance < shortestDistance){
+    if (distance < shortestDistance) {
       shortestDistance = distance;
       currentIndex = index;
     }
   }
-  return {v1, vectorList[currentIndex], shortestDistance} ;
+  return {v1, vectorList[currentIndex], shortestDistance};
 }
 
 bool isConnection(Vector vec, std::vector<Vector> vecArray) {
@@ -96,31 +97,16 @@ VectorPair findPair(Vector vec, std::vector<VectorPair> pairs) {
   }
 }
 
-/*bool checkIfAllUsed(std::vector<Vector> vectorList, std::vector<std::vector<Vector>> components){
-    for (Vector elem : vectorList) {
-        bool found = false;
-        for (const auto& innerVec : components) {
-            if (std::find(innerVec.begin(), innerVec.end(), elem) != innerVec.end()) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            return false;
-        }
-    }
-    return true;
-}*/
-
 std::vector<std::vector<Vector>>
-connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors, std::vector <Vector> vectorList) {
+connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
+             std::vector<Vector> vectorList) {
   std::vector<std::vector<Vector>> components;
   components.push_back({pairs[0].vec1, pairs[0].vec2});
   int limit = pairs.size();
   for (int i = 1; i < limit; i++) {
 
     bool changed = false;
-    int size = components.size()-1;
+    int size = components.size() - 1;
 
     for (int j = 0; j < size; j++) {
 
@@ -132,7 +118,7 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors, 
         bool found = false;
         for (int k = j; k < size; k++) {
           if (isConnection(pairs[i].vec2, components[k])) {
-            
+
             components[j].insert(components[j].end(), components[k].begin(),
                                  components[k].end());
             components.erase(components.begin() + k);
@@ -201,25 +187,16 @@ int main(int argc, char **argv) {
   }
   size_t size = vectorList.size();
 
-
-
   size = vectorList.size();
   for (size_t i = 0; i < size; i++) {
-//    for (size_t j = i; j < size; j++) {
-//      if (vectorList[i] == vectorList[j]) {
-//        continue;
-//      } else {
-        VectorPair pair = getDistance(vectorList[i], vectorList);
-        pairList.push_back(pair);
-      }
-//    }
-//  }
+    VectorPair pair = getDistance(vectorList[i], vectorList);
+    pairList.push_back(pair);
+  }
 
   std::sort(pairList.begin(), pairList.end(),
             [](const VectorPair &a, const VectorPair &b) {
               return a.distance < b.distance;
             });
-
 
   circuits = connectPairs(pairList, vectorList, vectorList);
 
@@ -229,9 +206,9 @@ int main(int argc, char **argv) {
             });
 
   unsigned long long sum = 1;
-  
 
-  sum *= pairList[pairList.size()-1].vec1.x *pairList[pairList.size()-1].vec2.x;
+  sum *= pairList[pairList.size() - 1].vec1.x *
+         pairList[pairList.size() - 1].vec2.x;
 
   std::cout << "Sum: " << sum << '\n';
 
