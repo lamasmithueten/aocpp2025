@@ -90,13 +90,7 @@ VectorPair findPair(Vector vec, std::vector<VectorPair> pairs) {
 std::vector<std::vector<Vector>>
 connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
              int limit) {
-  std::cout << "Pairs:\n";
-  for (int i = 0; i<10; i++){
-    std::cout << "Iteration: " << i+1 << "\nVector 1:\n" << pairs[i].vec1 << "\nVector 2:\n" << pairs[i].vec2 <<"\nDistance:" <<pairs[i].distance << "\n\n";
-  }
-  std::cout << "Begin Connecting\n";
   std::vector<std::vector<Vector>> components;
-  std::cout << "New Connection\n" << pairs[0].vec1 << '\n' << pairs[0].vec2 << "\n\n";
   components.push_back({pairs[0].vec1, pairs[0].vec2});
   for (int i = 1; i < limit; i++) {
 
@@ -107,27 +101,13 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
 
       if (isConnection(pairs[i].vec1, components[j]) &&
           isConnection(pairs[i].vec2, components[j])) {
-        std::cout << "Connecting\n" << pairs[i].vec1 << "\nwith\n" << pairs[i].vec2 << "\nin\n";
-        for (Vector vec: components[j]){
-          std::cout << vec << '\n';
-        }
-        std::cout << '\n';
-//        components[j].push_back(pairs[i].vec1);
         changed = true;
         break;
       } else if (isConnection(pairs[i].vec1, components[j])) {
         bool found = false;
-        std::cout << "Connecting\n";
         for (int k = j; k < size; k++) {
           if (isConnection(pairs[i].vec2, components[k])) {
-            for (Vector vec: components[j]){
-              std::cout << vec << '\n';
-            }
-            std::cout<< "\nwith\n";
             
-            for (Vector vec: components[k]){
-              std::cout << vec << '\n';
-            }
             components[j].insert(components[j].end(), components[k].begin(),
                                  components[k].end());
             components.erase(components.begin() + k);
@@ -136,11 +116,6 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
           }
         }
         if (!found) {
-            std::cout << pairs[i].vec2 << '\n';
-            std::cout<< "\nwith\n";
-            for (Vector vec: components[j]){
-              std::cout << vec << '\n';
-            }
           components[j].push_back(pairs[i].vec2);
         }
 
@@ -148,16 +123,8 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
         break;
       } else if (isConnection(pairs[i].vec2, components[j])) {
         bool found = false;
-        std::cout << "Connecting\n";
         for (int k = j; k < size; k++) {
           if (isConnection(pairs[i].vec1, components[k])) {
-            for (Vector vec: components[j]){
-              std::cout << vec << '\n';
-            }
-            std::cout<< "\nwith\n";
-            for (Vector vec: components[k]){
-              std::cout << vec << '\n';
-            }
             components[j].insert(components[j].end(), components[k].begin(),
                                  components[k].end());
             components.erase(components.begin() + k);
@@ -167,12 +134,6 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
         }
 
         if (!found) {
-            std::cout << pairs[i].vec1 << '\n';
-            std::cout<< "\nwith\n";
-            for (Vector vec: components[j]){
-              std::cout << vec << '\n';
-            }
-            std::cout <<'\n';
           components[j].push_back(pairs[i].vec1);
         }
 
@@ -182,7 +143,6 @@ connectPairs(const std::vector<VectorPair> &pairs, std::vector<Vector> vectors,
     if (changed) {
       continue;
     } else {
-      std::cout << "New Connection\n" << pairs[i].vec1 << '\n' << pairs[i].vec2 << "\n\n";
       components.push_back({pairs[i].vec1, pairs[i].vec2});
     }
   }
@@ -251,18 +211,9 @@ int main(int argc, char **argv) {
               return a.size() > b.size();
             });
 
-  for (unsigned long int i = 0; i < circuits.size(); i++) {
-    std::cout << "Circuit:\n";
-    for (Vector j : circuits[i]) {
-      std::cout << "X: " << j.x << " Y: " << j.y << " Z: " << j.z << '\n';
-    }
-    std::cout << '\n';
-  }
   int sum = 1;
 
   for (int i = 0; i < 3; i++) {
-    std::cout << "Circuit:\n";
-    std::cout << circuits[i].size() << '\n';
     sum *= circuits[i].size();
   }
 
