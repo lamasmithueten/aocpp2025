@@ -3,9 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <numeric>
+#include <omp.h>
 #include <sstream>
 #include <vector>
-#include <omp.h>
 
 unsigned int countDigits(unsigned long long number) {
   if (number == 0)
@@ -46,23 +46,22 @@ bool areFractionsEqual(unsigned long long number, unsigned int fractionSize,
   return true;
 }
 
+unsigned long long getSum(std::pair<unsigned long long, unsigned long long> r) {
+  std::vector<unsigned long long> divisors;
+  unsigned long long sum = 0;
+  for (unsigned long long i = r.first; i <= r.second; i++) {
+    unsigned int length = countDigits(i);
+    divisors = getDivisors(length);
 
-unsigned long long getSum(std::pair<unsigned long long, unsigned long long>r){
-    std::vector<unsigned long long> divisors;
-    unsigned long long sum= 0;
-    for (unsigned long long i = r.first; i <= r.second; i++) {
-      unsigned int length = countDigits(i);
-      divisors = getDivisors(length);
-
-      for (auto j : divisors) {
-        if (areFractionsEqual(i, j, length)) {
-//          invalidIds.push_back(i);
-          sum += i;  
-          break;
-        }
+    for (auto j : divisors) {
+      if (areFractionsEqual(i, j, length)) {
+        //          invalidIds.push_back(i);
+        sum += i;
+        break;
       }
     }
-    return sum;
+  }
+  return sum;
 }
 
 int main(int argc, char **argv) {
@@ -85,23 +84,23 @@ int main(int argc, char **argv) {
   }
   invalidIds.resize(ranges.size());
   size_t size = ranges.size();
-  #pragma omp parallel for
-  for (size_t i = 0; i<size; i++){
+#pragma omp parallel for
+  for (size_t i = 0; i < size; i++) {
     invalidIds[i] = getSum(ranges[i]);
   }
-/*  for (const auto &r : ranges) {
-    for (unsigned long long i = r.first; i <= r.second; i++) {
-      unsigned int length = countDigits(i);
-      divisors = getDivisors(length);
+  /*  for (const auto &r : ranges) {
+      for (unsigned long long i = r.first; i <= r.second; i++) {
+        unsigned int length = countDigits(i);
+        divisors = getDivisors(length);
 
-      for (auto j : divisors) {
-        if (areFractionsEqual(i, j, length)) {
-          invalidIds.push_back(i);
-          break;
+        for (auto j : divisors) {
+          if (areFractionsEqual(i, j, length)) {
+            invalidIds.push_back(i);
+            break;
+          }
         }
       }
-    }
-  }*/
+    }*/
 
   std::cout << "Sum: "
             << std::accumulate(invalidIds.begin(), invalidIds.end(), 0ULL)
